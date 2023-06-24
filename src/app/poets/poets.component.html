@@ -1,0 +1,50 @@
+
+<div style="margin-left: 20px;">
+  
+    Select Author:
+    <select style="margin-bottom: 10px;" [disabled]="authorSearchValue !== '' || titleSearchValue!== ''" [(ngModel)]="selectedAuthor" (change)="AuthorChanged()">
+        <option>{{authorDefault}}</option>
+        <option *ngFor="let author of authorData" [ngValue]="author">{{author}}</option>
+      </select>
+    <br/>
+    Select Title:
+    <select style="margin-bottom: 10px;" [disabled]="authorSearchValue !== '' || titleSearchValue!== ''" [(ngModel)]="selectedTitle" (change)="TitleChanged()">
+      <option>{{titleDefault}}</option>
+      <option *ngFor="let title of titleData" [ngValue]="title">{{title}}</option>
+    </select>
+
+  <br/>
+  Search Author <input  id="authorSearch" authorSearch="authorSearch" #authorSearch="ngModel" type="text" style="margin-bottom: 10px;" (keyup.enter)="onSearch()" [disabled]="selectedAuthor !== authorDefault" [(ngModel)]="authorSearchValue">&nbsp;<span *ngIf="hasError && authorSearchValue !== ''" style="color:red">Author Search Term Not Found!</span><br/>
+  Search Title <input id="titleSearch" titleSearch="titleSearch" #titleSearch="ngModel" type="text" style="margin-bottom: 10px;" (keyup.enter)="onSearch()" [disabled]="selectedAuthor !== authorDefault" [(ngModel)]="titleSearchValue">&nbsp;<span *ngIf="hasError && titleSearchValue !== ''" style="color:red">Title Search Term Not Found!</span>
+  
+  <br/>
+  <button mat-stroked-button (click)="onSearch()" [disabled]="authorSearchValue === '' && titleSearchValue === ''">Search</button>&nbsp;&nbsp;
+  <button mat-stroked-button (click)="onReset()">Reset</button>
+
+  <br/><br/>
+  <div *ngIf="this.hasError == false">
+    Poems: 
+    <br/>
+
+    <table class="table table-striped" >
+      <thead>
+          <tr>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Lines</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let poem of poemsData">
+          <td>{{ poem.author }}</td>
+          <td>{{ poem.title }}</td>
+          <td>
+            <div *ngFor="let item of poem.lines">
+              {{ item }}
+          </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
